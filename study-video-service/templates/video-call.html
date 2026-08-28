@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSchool Live Smart Space</title>
+    
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="/assets/css/video-call.css">
+
+    <link rel="stylesheet" href="/assets/css/line-awesome.min.css">
+</head>
+<body class="bg-dark text-white">
+
+    <!-- ၁။ ENTRANCE GATE -->
+    <div id="entrance-gate" class="container text-center mt-5" style="max-width: 400px;">
+        <div class="card bg-secondary text-white p-4 shadow-lg">
+            <h3>🏫 iSchool Access Space</h3>
+            <div class="mb-3 mt-3">
+                <label class="form-label">Classroom Room Code</label>
+                <input type="text" id="roomCodeInput" class="form-control text-center fw-bold" value="ROOM-XYZ" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Select Academic Role</label>
+                <select id="roleInput" class="form-select text-center">
+                    <option value="teacher">Teacher (Classroom Host)</option>
+                    <option value="student">Student (Class Participant)</option>
+                </select>
+            </div>
+            <button onclick="initializeLiveClassroom()" class="btn btn-primary w-100">Launch Live Stream</button>
+        </div>
+    </div>
+
+    <!-- ၂။ MAIN CLASSROOM VIEW -->
+    <div id="classroom-view" class="container-fluid mt-3 d-none">
+        <div class="d-flex justify-content-between align-items-center mb-2 px-3">
+            <h5 id="localUserNameTag" class="text-info">✨ Role</h5>
+            <span id="studentCountDisplay" class="badge bg-danger fs-6">👥 Online Students: 0</span>
+        </div>
+
+        <div class="row">
+            <!-- 🎥 Zoom Style Video Matrix Grid -->
+            <div class="col-md-9">
+                <div id="video-grid-matrix" class="video-grid-layout">
+                    <!-- ကိုယ့်ဗီဒီယိုကွက် -->
+                    <div id="local-video-card" class="video-card-node">
+                        <video id="localVideo" autoplay playsinline muted></video>
+                        <div class="video-label">⭐ Me (You)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 💬 Chat Panel (Public + Student Private Rooms) -->
+            <div class="col-md-3 d-flex flex-column gap-3" style="min-height: 550px;">
+                <!-- Public Chat Box -->
+                <div class="card chat-card-matrix public-chat-bg text-white flex-grow-1 d-flex flex-column">
+                    <div class="card-header bg-primary">💬 Public Chat Room</div>
+                    <div class="card-body p-2 d-flex flex-column flex-grow-1">
+                        <div id="chat-messages" class="chat-scroll-area flex-grow-1"></div>
+                        <div class="input-group chat-input-group mt-2">
+                            <input type="text" id="chatInput" class="form-control" placeholder="Type public message...">
+                            <button onclick="transmitLiveChatMessage()" class="btn btn-primary"><i class="las la-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🔒 Student Only Private Chat Box (ကျောင်းသားမှသာ ဝင်လာလျှင် d-none ပျောက်မည်) -->
+                <div id="private-student-panel" class="card chat-card-matrix private-chat-bg text-white flex-grow-1 d-flex flex-column d-none">
+                    <div class="card-header bg-success">🔒 Student Only Chat Room</div>
+                    <div class="card-body p-2 d-flex flex-column flex-grow-1">
+                        <div class="emoji-trigger-bar p-1 d-flex justify-content-around mb-1 rounded bg-dark">
+                            <span class="style-emoji-btn" onclick="sendPrivateEmoji('🔥')">🔥</span>
+                            <span class="style-emoji-btn" onclick="sendPrivateEmoji('💯')">💯</span>
+                            <span class="style-emoji-btn" onclick="sendPrivateEmoji('👏')">👏</span>
+                            <span class="style-emoji-btn" onclick="sendPrivateEmoji('💡')">💡</span>
+                            <span class="style-emoji-btn" onclick="sendPrivateEmoji('🤣')">🤣</span>
+                        </div>
+                        <div id="private-chat-messages" class="chat-scroll-area flex-grow-1"></div>
+                        <div class="input-group chat-input-group mt-2">
+                            <input type="text" id="privateChatInput" class="form-control" placeholder="Students only...">
+                            <button onclick="transmitPrivateChatMessage()" class="btn btn-success"><i class="las la-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ၃။ FLOATING TOOLBAR CONTROLS -->
+    <!-- 📄 templates/video-call.html ၏ FLOATING TOOLBAR CONTROLS နေရာတွင် အစားထိုးပါ -->
+    <div id="live-controls-toolbar" class="floating-toolbar-wrapper d-none">
+        <div class="floating-toolbar">
+            <button id="btn-mic" onclick="toggleAudioMicrophone()" class="btn btn-action-node btn-light text-primary" title="Mute/Unmute"><i class="las la-microphone"></i></button>
+            <button id="btn-video" onclick="toggleVideoCamera()" class="btn btn-action-node btn-light text-primary" title="Camera On/Off"><i class="las la-video"></i></button>
+            <button id="btn-share" onclick="toggleScreenSharing()" class="btn btn-action-node btn-warning text-white" title="Share Screen"><i class="las la-desktop"></i></button>
+            
+            <!-- ✋ Hand Raising ခလုတ်ကို ကျောင်းသားများအတွက် သီးသန့် ပြန်လည်ထည့်သွင်းခြင်း -->
+            <button id="btn-hand" onclick="signalRaiseHandAction()" class="btn btn-action-node btn-info text-white d-none" title="Raise Hand ✋"><i class="las la-hand-paper"></i></button>
+            
+            <button id="btn-end" onclick="userRole === 'teacher' ? terminateClassroomByHost() : window.location.reload()" class="btn btn-action-node btn-danger text-white" title="End / Leave Class">
+                <i class="las la-phone-slash"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <script src="/assets/js/video-call.js"></script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+/* 🌟 iSchool Full-Stack Live Smart Space - Advanced UI Style Sheet */
+
+/* ==========================================
+   ၁။ Main Layout & Structure
+   ========================================== */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8fafc;
+}
+
+/* စနစ်တစ်ခုလုံးကို ဘေးဘောင်များနှင့် မကပ်စေရန် အပြင်ဘက်ဆုံး Container ကို Margin ညှိခြင်း */
+#classroom-view {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    height: calc(100vh - 140px) !important;
+    margin-bottom: 110px !important;
+}
+
+/* 🌟 canFIX: ဗီဒီယိုဘောင်နှင့် Chat Room ကြားထဲတွင် လှပသော Spacing အား Bootstrap Row တွင် ထည့်သွင်းခြင်း */
+#classroom-view .row {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+    --bs-gutter-x: 30px !important;
+}
+
+/* ဗီဒီယိုပြကွက်၏ ညာဘက်အနားသတ်တွင် Space ပိုမိုရရှိစေရန် grid ကို margin ထပ်မံပေးခြင်း */
+#classroom-view .col-md-9 {
+    padding-right: 15px !important;
+
+}
+
+/* Chat Room ၏ ဘယ်ဘက်အနားသတ်ကိုလည်း အနည်းငယ် ခွာပေးခြင်း */
+#classroom-view .col-md-3 {
+    padding-left: 15px !important;
+}
+
+/* ==========================================
+   ၂။ Video Rendering Grid (ဗီဒီယို ပြကွက်)
+   ========================================== */
+.video-wrapper-node {
+    background-color: #0f172a !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌟 canFIX: Screen Share ရုပ်ပုံကြီးခြင်းအား ဘောင်အတွင်း ကွက်တိဝင်အောင် ရာနှုန်းပြည့် Responsive ပြုလုပ်ခြင်း */
+#remoteVideo {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    /* 💡 contain ပြောင်းလိုက်သဖြင့် ရုပ်ပုံမပြတ်ဘဲ ဘောင်အတွင်း အချိုးကျ ပုံဝင်သွားပါမည် */
+    border-radius: 16px;
+    background-color: #0f172a;
+    /* ဘေးလွတ်သော နေရာများကို အမည်းရောင်ဖြင့် လှပစွာ ဖုံးအုပ်ခြင်း */
+}
+
+/* ညာဘက်အောက်ခြေက ကိုယ့်ဗီဒီယိုကွက် (Picture-in-Picture) ပုံစံအား Responsive ဖြစ်စေခြင်း */
+.local-video-pip {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 20%;
+    /* Screen အကျယ်၏ ၂၀ ရာခိုင်နှုန်းသာ ယူရန် */
+    min-width: 160px;
+    /* အသေးဆုံး ရှိရမည့် အရွယ်အစား */
+    max-width: 240px;
+    /* အကြီးဆုံး ရှိရမည့် အရွယ်အစား */
+    aspect-ratio: 16 / 9;
+    /* လှပသော ၁၆:၉ အချိုး */
+    border-radius: 12px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    z-index: 50;
+    overflow: hidden;
+}
+
+#localVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ကိုယ့်မျက်နှာကိုတော့ ကွက်တိအပြည့်ပြရန် */
+}
+
+/* ==========================================
+   ၃။ Live Chat Room Area (စကားပြောခန်း)
+   ========================================== */
+#chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 14px !important;
+    /* 🌟 canFIX: Chat တစ်ခုနှင့်တစ်ခုကြား လှပစွာ ဟာကွက် ချန်ပေးခြင်း */
+    padding: 10px !important;
+    background-color: #f1f5f9 !important;
+    border-radius: 12px;
+}
+
+/* Chat Bubble ပုံစံများကို ပိုမို သေသပ်အောင် ပြင်ဆင်ခြင်း */
+.chat-bubble-node {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.bubble-me {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.bubble-remote {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Toolbar နေရာအား စနစ်တကျ အထိုင်ချခြင်း */
+.floating-toolbar-wrapper {
+    position: fixed;
+    bottom: 25px !important;
+    /* အောက်ခြေ Taskbar နှင့် ဗီဒီယိုဘောင်ကြား ကွက်တိအလယ်တွင် ထားခြင်း */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999 !important;
+}
+
+.floating-toolbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 10px 24px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 🌟 canFIX: အဝိုင်းခလုတ်ထဲတွင် အိုင်ကွန်များ ရာနှုန်းပြည့် အံဝင်ဂွင်ကျ ဗဟိုကျစေခြင်း */
+.btn-action-node {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    /* အပို Padding များ ဖယ်ရှားခြင်း */
+    border: none !important;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Icon အရွယ်အစားကို အဝိုင်းနှင့် အချိုးကျအောင် ညှိခြင်း */
+.btn-action-node i {
+    font-size: 1.35rem !important;
+    line-height: 1 !important;
+    display: block !important;
+}
+
+/* Hover Action Effect ထည့်သွင်းခြင်း */
+.btn-action-node:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   🔴 Red & Green Specific Workspace Matrix Tuning
+   ========================================================================== */
+
+/* Local Video ဗူးခွံတစ်ခုလုံးအား စုစည်းထားခြင်း */
+.local-video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🟢 Private Emoji ခလုတ်လေးများအား စနစ်တကျ ပုံဖော်ခြင်း */
+.style-emoji-btn {
+    cursor: pointer;
+    font-size: 1.3rem !important;
+    /* အားလုံး ညီညာသော အရွယ်အစား ဖြစ်စေရန် */
+    transition: transform 0.1s ease-in-out;
+    user-select: none;
+}
+
+.style-emoji-btn:hover {
+    transform: scale(1.3) !important;
+}
+
+/* Chat Room အမြင့်များအား ဝေမျှယူခြင်း */
+#classroom-view .col-md-3 {
+    justify-content: space-between;
+}
+
+/* ========================================================================= */
+/* 🌟 Layout Upgrade & Separation Matrix (Premium UI Styling) */
+/* ========================================================================= */
+.match-height-row {
+    min-height: calc(100vh - 2rem);
+}
+
+.video-wrapper-node {
+    background-color: #111827;
+    border: 1px solid #1f2937;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.local-video-pip {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 180px;
+    height: 130px;
+    border-radius: 12px;
+    border: 2px solid #3b82f6;
+    overflow: hidden;
+    z-index: 10;
+    background-color: #1f2937;
+}
+
+.btn-action-node {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.2s ease;
+}
+
+.btn-action-node:hover {
+    transform: translateY(-2px);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+}
+
+.chat-side-panel {
+    max-height: calc(100vh - 2rem);
+}
+
+.chat-card-matrix {
+    border: 1px solid #1f2937 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.public-chat-bg {
+    background-color: #111827;
+}
+
+.private-chat-bg {
+    background-color: #0e1622;
+}
+
+.panel-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-scroll-area {
+    height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.chat-scroll-area::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-scroll-area::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 10px;
+}
+
+/* 💬 ခေတ်မီစတိုင် Chat Bubble ကုဒ်များ */
+.chat-bubble-node {
+    display: inline-flex;
+    flex-direction: column;
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.88rem;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.chat-bubble-node.bubble-me {
+    margin-left: auto;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.chat-bubble-node.bubble-remote {
+    margin-right: auto;
+    background-color: #1f2937;
+    color: #e2e8f0;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #374151;
+}
+
+.chat-input-group {
+    background-color: #1f2937;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #374155;
+}
+
+.chat-input-group input {
+    background-color: transparent !important;
+    color: #f8fafc !important;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+}
+
+.chat-input-group input::placeholder {
+    color: #6b7280;
+}
+
+.chat-input-group input:focus {
+    box-shadow: none;
+}
+
+.btn-chat-send {
+    background: transparent;
+    border: 0;
+    padding: 0 14px;
+    transition: transform 0.1s ease;
+}
+
+.btn-chat-send:hover {
+    transform: scale(1.1);
+}
+
+.emoji-trigger-bar {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center;
+    background-color: #1e293b !important;
+    border: 1px solid #374151 !important;
+    padding: 6px !important;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+/* Zoom Style Flexible Grid Layout */
+.video-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 10px;
+    background-color: #111827;
+    border-radius: 12px;
+    min-height: 550px;
+}
+
+.video-card-node {
+    position: relative;
+    background-color: #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 2px solid #374151;
+}
+
+.video-card-node video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: white;
+}
+
+.chat-card-matrix {
+    border: 1px solid #374151 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.public-chat-bg {
+    background-color: #1e293b;
+}
+
+.private-chat-bg {
+    background-color: #111827;
+}
+
+.chat-scroll-area {
+    height: 160px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+}
+
+.chat-bubble-node {
+    display: inline-block;
+    max-width: 85%;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.bubble-me {
+    background-color: #3b82f6;
+    color: white;
+    margin-left: auto;
+}
+
+.bubble-remote {
+    background-color: #4b5563;
+    color: white;
+    margin-right: auto;
+}
+
+.floating-toolbar-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.floating-toolbar {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action-node {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.style-emoji-btn {
+    cursor: pointer;
+    font-size: 1.1rem;
+}
